@@ -15,7 +15,7 @@
 
     <li>
       <div class="li-content">
-        <a href="#">
+        <a href="/post/<%= post._id %>">
           <span><%= post.title %></span
           ><span class="article_date"
             ><%= post.createdAt.toDateString() %></span
@@ -28,5 +28,8 @@
   <% if (hasNextPage!==null) { %>
 
   <a href="/?page=<%=nextPage%>" class="pagination">&lt; View Older</a>
+  <% } %> <% if (hasNextPage==null) { %>
+  <a href="/?page=<%=1%>" class="pagination">&lt; Go to First</a>
+
   <% } %>
 </article>

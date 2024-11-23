@@ -26,6 +26,38 @@ router.get('', async (req, res) => {
   }
 });
 
+// get post
+
+router.get('/post/:id', async (req, res) => {
+  try {
+    let { id } = req.params;
+    const data = await Post.findById(id);
+    res.render('post', { data });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//Search Bar
+
+router.post('/search', async (req, res) => {
+  try {
+    const { searchTerm } = req.body;
+    const SearchTermModified = searchTerm.replace(/[^a-zA-Z0-9 ]/g, '');
+
+    const data = await Post.find({
+      $or: [
+        { title: { $regex: new RegExp(SearchTermModified, 'i') } },
+        { body: { $regex: new RegExp(SearchTermModified, 'i') } },
+      ],
+    });
+
+    res.render('search', { data });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 export default router;
 
 // const insertData = function () {
