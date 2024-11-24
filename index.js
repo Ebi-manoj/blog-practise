@@ -1,5 +1,6 @@
 import express from 'express';
 import mainRoutes from './Server/routes/main.js';
+import adminRoutes from './Server/routes/admin.js';
 import expressEjsLayouts from 'express-ejs-layouts';
 import connectDB from './Server/config/db.js';
 
@@ -18,6 +19,7 @@ app.set('view engine', 'ejs');
 app.set('layout', './layouts/main');
 
 app.use('/', mainRoutes);
+app.use('/', adminRoutes);
 
 app.listen(3000, () => {
   console.log(`Server Running on the PORT 3000`);
