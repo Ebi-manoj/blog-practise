@@ -1,6 +1,6 @@
 <div class="form">
-  <form action="/admin" method="post">
-    <h2>Log In</h2>
+  <form action="/register" method="post">
+    <h2>Sign Up</h2>
     <div class="input-box">
       <i class="fa fa-user" aria-hidden="true"></i>
       <input name="username" placeholder="Username" required />
@@ -16,13 +16,8 @@
       />
     </div>
     <div class="input-box">
-      <input type="submit" name="sign-in" value="Login" />
+      <input type="submit" name="sign-in" value="Sign Up" />
     </div>
-    <% if (incorrect) { %>
-    <div class="text-center">
-      <a href="/register">Invalid Credintials!</a>
-    </div>
-    <% } %>
-    <a href="/register">Don't have account? Sign Up</a>
+    <a href="/admin">Already have account? Log In</a>
   </form>
 </div>
