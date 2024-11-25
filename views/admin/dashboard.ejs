@@ -1,1 +1,30 @@
-dashboard
+<article class="article container-fluid">
+  <h1 class="my-5">Dashboard</h1>
+  <div class="admin-title">
+    <h3>POSTS</h3>
+    <a href="/add-post">+ Add new</a>
+  </div>
+  <ul class="admin-posts">
+    <% data.forEach(post => { %>
+    <li>
+      <div class="post-content">
+        <a href="/post/<%= post._id %>"><%= post.title %> &nearr;</a>
+        <div class="admin-button d-flex">
+          <input id="edit-btn" type="submit" value="Edit" />
+          <form action="/delete" method="post">
+            <input id="delete-btn" type="submit" value="Delete" />
+          </form>
+        </div>
+      </div>
+    </li>
+
+    <% }) %>
+  </ul>
+  <% if (hasNextPage!==null) { %>
+
+  <a href="/dashboard?page=<%=nextPage%>" class="pagination">&lt; View Older</a>
+  <% } %> <% if (hasNextPage==null) { %>
+  <a href="/dashboard?page=<%=1%>" class="pagination">&lt; Go to First</a>
+
+  <% } %>
+</article>

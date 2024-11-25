@@ -4,6 +4,7 @@ import User from '../model/user.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { pagination } from './main.js';
 
 dotenv.config();
 const router = express.Router();
@@ -60,7 +61,7 @@ router.post('/admin', async (req, res) => {
     });
     res.cookie('token', token, {
       httpOnly: true,
-      maxAge: 60 * 1000,
+      maxAge: 60 * 70 * 1000,
       sameSite: 'Strict',
     });
     res.redirect('/dashboard');
@@ -85,8 +86,19 @@ router.post('/register', async (req, res) => {
   }
 });
 
-router.get('/dashboard', authMiddleware, (req, res) => {
-  res.render('admin/dashboard', { layout: adminLayout });
+router.get('/dashboard', authMiddleware, pagination, async (req, res) => {
+  try {
+    // const data = await Post.find();
+    const { data, nextPage, hasNextPage } = req.pagination;
+    res.render('admin/dashboard', {
+      data,
+      nextPage,
+      hasNextPage,
+      layout: adminLayout,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 export default router;

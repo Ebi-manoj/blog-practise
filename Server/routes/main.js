@@ -4,12 +4,11 @@ import Post from '../model/post.js';
 const router = express.Router();
 
 // home
-
-router.get('', async (req, res) => {
+export const pagination = async function (req, res, next) {
   try {
-    let perPage = 5;
     const page = req.query.page || 1;
 
+    let perPage = 5;
     const data = await Post.aggregate([{ $sort: { createdAt: -1 } }])
       .skip((page - 1) * perPage)
       .limit(perPage)
@@ -20,6 +19,16 @@ router.get('', async (req, res) => {
     const hasNextPage =
       nextPage <= Math.ceil(count / perPage) ? nextPage : null;
 
+    req.pagination = { data, hasNextPage, nextPage };
+
+    next();
+  } catch (error) {
+    console.log(error);
+  }
+};
+router.get('', pagination, async (req, res) => {
+  try {
+    const { data, nextPage, hasNextPage } = req.pagination;
     res.render('index', { data, nextPage, hasNextPage });
   } catch (error) {
     console.log(error);
