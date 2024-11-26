@@ -8,11 +8,16 @@
     <% data.forEach(post => { %>
     <li>
       <div class="post-content">
-        <a href="/post/<%= post._id %>"><%= post.title %> &nearr;</a>
+        <a href="/dashboard/<%= post._id %>"><%= post.title %> &nearr;</a>
         <div class="admin-button d-flex">
-          <input id="edit-btn" type="submit" value="Edit" />
+          <input
+            class="edit-btn"
+            type="submit"
+            data-id="<%=post._id %>"
+            value="Edit"
+          />
           <form action="/delete" method="post">
-            <input id="delete-btn" type="submit" value="Delete" />
+            <input class="delete-btn" type="submit" value="Delete" />
           </form>
         </div>
       </div>
@@ -27,4 +32,35 @@
   <a href="/dashboard?page=<%=1%>" class="pagination">&lt; Go to First</a>
 
   <% } %>
+
+  <div class="model-window hidden">
+    <h2>EDIT POST</h2>
+    <form id="edit-form" method="post" class="p-3">
+      <div class="mb-5 w-25">
+        <label for="title" class="form-label fs-6">Title</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          class="form-control"
+          placeholder="Enter the title"
+          required
+        />
+      </div>
+      <div class="mb-3 w-50">
+        <label for="content" class="form-label fs-6">Edit Content </label>
+        <textarea
+          id="content"
+          name="content"
+          class="form-control"
+          rows="5"
+          placeholder="Write the content here..."
+          required
+        ></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Edit</button>
+    </form>
+    <button class="close-btn">&times;</button>
+  </div>
 </article>
+<div class="overlay hidden"></div>

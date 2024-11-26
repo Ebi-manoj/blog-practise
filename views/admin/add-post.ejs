@@ -1,0 +1,31 @@
+<article class="article container-fluid">
+  <h1 class="my-5">Dashboard</h1>
+  <h4>Add New Post</h4>
+  <div class="add-post-form">
+    <form action="/add-post" method="post" class="p-3">
+      <div class="mb-3 w-25">
+        <label for="title" class="form-label fs-6">Title for the content</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          class="form-control"
+          placeholder="Enter the title"
+          required
+        />
+      </div>
+      <div class="mb-3 w-50">
+        <label for="content" class="form-label fs-6">Content here</label>
+        <textarea
+          id="content"
+          name="content"
+          class="form-control"
+          rows="5"
+          placeholder="Write the content here..."
+          required
+        ></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+  </div>
+</article>

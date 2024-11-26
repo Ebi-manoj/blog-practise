@@ -4,29 +4,31 @@ import Post from '../model/post.js';
 const router = express.Router();
 
 // home
-export const pagination = async function (req, res, next) {
-  try {
-    const page = req.query.page || 1;
+export const pagination = function (numOfpage) {
+  return async function (req, res, next) {
+    try {
+      const page = req.query.page || 1;
 
-    let perPage = 5;
-    const data = await Post.aggregate([{ $sort: { createdAt: -1 } }])
-      .skip((page - 1) * perPage)
-      .limit(perPage)
-      .exec();
+      let perPage = numOfpage;
+      const data = await Post.aggregate([{ $sort: { createdAt: -1 } }])
+        .skip((page - 1) * perPage)
+        .limit(perPage)
+        .exec();
 
-    const count = await Post.countDocuments();
-    const nextPage = parseInt(page) + 1;
-    const hasNextPage =
-      nextPage <= Math.ceil(count / perPage) ? nextPage : null;
+      const count = await Post.countDocuments();
+      const nextPage = parseInt(page) + 1;
+      const hasNextPage =
+        nextPage <= Math.ceil(count / perPage) ? nextPage : null;
 
-    req.pagination = { data, hasNextPage, nextPage };
+      req.pagination = { data, hasNextPage, nextPage };
 
-    next();
-  } catch (error) {
-    console.log(error);
-  }
+      next();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 };
-router.get('', pagination, async (req, res) => {
+router.get('', pagination(5), async (req, res) => {
   try {
     const { data, nextPage, hasNextPage } = req.pagination;
     res.render('index', { data, nextPage, hasNextPage });
@@ -41,6 +43,9 @@ router.get('/post/:id', async (req, res) => {
   try {
     let { id } = req.params;
     const data = await Post.findById(id);
+    if (req.xhr || req.headers.accept.includes('application/json')) {
+      return res.json(data);
+    }
     res.render('post', { data });
   } catch (error) {
     console.log(error);

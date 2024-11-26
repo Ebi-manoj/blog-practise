@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   font-size: 62.5%;
   background: url('/img/bg.jpg');
@@ -10,6 +11,9 @@ body {
   background-size: cover;
   object-fit: contain;
   color: white;
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 /* header */
 
@@ -208,4 +212,73 @@ footer {
 }
 #delete-btn:hover {
   background-color: rgb(205, 46, 46);
+}
+
+/* add-new post */
+
+.add-post-form label {
+  color: black;
+  font-weight: 600;
+}
+
+/* modal window */
+
+.model-window {
+  width: 600px;
+  height: auto;
+  background-color: #ececec;
+  text-align: center;
+  padding: 10px;
+  border-radius: 15px;
+  color: black;
+  font-weight: 600;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s;
+}
+.model-window form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.model-window input,
+.model-window textarea {
+  background-color: rgb(172, 172, 172) !important;
+  color: black;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.model-window ::placeholder {
+  color: black;
+}
+.modal-window input:focus,
+.modal-window textarea:focus {
+  background-color: rgb(172, 172, 172) !important;
+}
+.close-btn {
+  position: absolute;
+  top: 2%;
+  right: 2%;
+  border: none !important;
+  outline: none !important;
+  font-size: 1.8rem;
+  font-weight: 600;
+  background: inherit;
+}
+.hidden {
+  display: none;
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 5;
 }

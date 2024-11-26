@@ -24,6 +24,7 @@ const authMiddleware = (req, res, next) => {
     req.userId = decoded.userId;
     next();
   } catch (error) {
+    res.redirect('/admin');
     res.status(409).json({ message: 'Inavlid Crediantials' });
   }
 };
@@ -86,7 +87,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-router.get('/dashboard', authMiddleware, pagination, async (req, res) => {
+router.get('/dashboard', authMiddleware, pagination(10), async (req, res) => {
   try {
     // const data = await Post.find();
     const { data, nextPage, hasNextPage } = req.pagination;
@@ -98,6 +99,55 @@ router.get('/dashboard', authMiddleware, pagination, async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+  }
+});
+
+router.get('/dashboard/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = await Post.findById(id);
+    res.render('post', { data, layout: adminLayout });
+  } catch (error) {
+    res.status(401).json({ message: 'Internal server error' });
+  }
+});
+
+// get add new post
+
+router.get('/add-post', (req, res) => {
+  try {
+    res.render('admin/add-post', { layout: adminLayout });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Add new Post
+
+router.post('/add-post', async (req, res) => {
+  try {
+    const { title, content } = req.body;
+    if (!title || !content) {
+      return res.status(401).json({ message: 'Title and body required' });
+    }
+    const newPost = await Post.create({ title, body: content });
+    res.redirect('/dashboard');
+  } catch (error) {
+    res.status(401).json({ message: 'Internal server Issues' });
+  }
+});
+
+// edit Post
+
+router.post('/edit-post/:id', async (req, res) => {
+  try {
+    const { title, content } = req.body;
+    const id = req.params.id;
+    await Post.findByIdAndUpdate(id, { title, body: content });
+    res.redirect('/dashboard');
+  } catch (error) {
+    res.status(409).json({ message: 'Error editing Post' });
   }
 });
 
