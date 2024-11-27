@@ -101,7 +101,7 @@ router.get('/dashboard', authMiddleware, pagination(10), async (req, res) => {
   }
 });
 
-router.get('/dashboard/:id', async (req, res) => {
+router.get('/dashboard/:id', authMiddleware, async (req, res) => {
   try {
     const { id } = req.params;
     const data = await Post.findById(id);
@@ -113,7 +113,7 @@ router.get('/dashboard/:id', async (req, res) => {
 
 // get add new post
 
-router.get('/add-post', (req, res) => {
+router.get('/add-post', authMiddleware, (req, res) => {
   try {
     res.render('admin/add-post', { layout: adminLayout });
   } catch (error) {
@@ -124,7 +124,7 @@ router.get('/add-post', (req, res) => {
 
 // Add new Post
 
-router.post('/add-post', async (req, res) => {
+router.post('/add-post', authMiddleware, async (req, res) => {
   try {
     const { title, content } = req.body;
     if (!title || !content) {
@@ -139,7 +139,7 @@ router.post('/add-post', async (req, res) => {
 
 // edit Post
 
-router.post('/edit-post/:id', async (req, res) => {
+router.post('/edit-post/:id', authMiddleware, async (req, res) => {
   try {
     const { title, content } = req.body;
     const id = req.params.id;
@@ -149,7 +149,7 @@ router.post('/edit-post/:id', async (req, res) => {
     res.status(409).json({ message: 'Error editing Post' });
   }
 });
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/delete/:id', authMiddleware, async (req, res) => {
   try {
     const id = req.params.id;
 
@@ -163,4 +163,12 @@ router.delete('/delete/:id', async (req, res) => {
     console.log(error);
   }
 });
+
+// logout functionality
+
+router.post('/logout', (req, res) => {
+  res.clearCookie('token');
+  res.redirect('/admin');
+});
+
 export default router;

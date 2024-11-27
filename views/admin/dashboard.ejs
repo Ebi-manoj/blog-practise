@@ -4,6 +4,7 @@
     <h3>POSTS</h3>
     <a href="/add-post">+ Add new</a>
   </div>
+
   <ul class="admin-posts">
     <% data.forEach(post => { %>
     <li>
@@ -68,4 +69,7 @@
     <button class="close-btn">&times;</button>
   </div>
 </article>
+<form class="logout" action="/logout" method="post">
+  <button class="btn-logout" type="submit">Log Out</button>
+</form>
 <div class="overlay hidden"></div>
