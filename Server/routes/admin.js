@@ -25,7 +25,6 @@ const authMiddleware = (req, res, next) => {
     next();
   } catch (error) {
     res.redirect('/admin');
-    res.status(409).json({ message: 'Inavlid Crediantials' });
   }
 };
 // get Admin page
@@ -150,5 +149,18 @@ router.post('/edit-post/:id', async (req, res) => {
     res.status(409).json({ message: 'Error editing Post' });
   }
 });
+router.delete('/delete/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
 
+    const deltePost = await Post.findByIdAndDelete(id);
+
+    if (!deltePost)
+      return res.status(401).json({ message: 'error deleting data' });
+
+    res.status(200).json({ message: 'Post deleted succesfully' });
+  } catch (error) {
+    console.log(error);
+  }
+});
 export default router;

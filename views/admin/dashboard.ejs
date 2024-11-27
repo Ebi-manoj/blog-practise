@@ -16,8 +16,13 @@
             data-id="<%=post._id %>"
             value="Edit"
           />
-          <form action="/delete" method="post">
-            <input class="delete-btn" type="submit" value="Delete" />
+          <form id="delete-form" method="post">
+            <input
+              class="delete-btn"
+              type="submit"
+              data-id="<%= post._id %>"
+              value="Delete"
+            />
           </form>
         </div>
       </div>

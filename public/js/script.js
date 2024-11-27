@@ -75,3 +75,29 @@ document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape' && !modalWindow.classList.contains('hidden'))
     closeModal();
 });
+
+///////////////////////////////////
+// delte functionality
+const deleteBtn = document.querySelectorAll('.delete-btn');
+
+deleteBtn.forEach(btn =>
+  btn.addEventListener('click', async function (e) {
+    e.preventDefault();
+    const id = this.dataset.id;
+    console.log(id);
+
+    const confirmed = confirm('Are you sure want to delete this post');
+
+    if (!confirmed) return;
+
+    try {
+      const response = await fetch(`/delete/${id}`, { method: 'DELETE' });
+      if (!response.ok) {
+        throw new Error('Internal Server Issue');
+      }
+      this.closest('li').remove();
+    } catch (error) {
+      console.log(`Error delete data`);
+    }
+  })
+);
